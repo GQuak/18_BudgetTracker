@@ -20,25 +20,25 @@ self.addEventListener("install", function (evt) {
       return cache.addAll(FILES_TO_CACHE);
     })
   );
-  self.skipWaiting();
+  // self.skipWaiting();
 });
 
-self.addEventListener("activate", function (evt) {
-  evt.waitUntil(
-    caches.keys().then((keyList) => {
-      return Promise.all(
-        keyList.map((key) => {
-          if (key !== CACHE_NAME && key !== DATA_CACHE_NAME) {
-            console.log("Removing old cache data", key);
-            return caches.delete(key);
-          }
-        })
-      );
-    })
-  );
+// self.addEventListener("activate", function (evt) {
+//   evt.waitUntil(
+//     caches.keys().then((keyList) => {
+//       return Promise.all(
+//         keyList.map((key) => {
+//           if (key !== CACHE_NAME && key !== DATA_CACHE_NAME) {
+//             console.log("Removing old cache data", key);
+//             return caches.delete(key);
+//           }
+//         })
+//       );
+//     })
+//   );
 
-  self.clients.claim();
-});
+//   self.clients.claim();
+// });
 
 self.addEventListener("fetch", function (evt) {
   if (evt.request.url.includes("/api/")) {
@@ -62,9 +62,21 @@ self.addEventListener("fetch", function (evt) {
     return;
   }
 
+  // evt.respondWith(
+  //   caches.match(evt.request).then(function (response) {
+  //     return response || fetch(evt.request);
+  //   })
+  // );
   evt.respondWith(
-    caches.match(evt.request).then(function (response) {
-      return response || fetch(evt.request);
+    fetch(evt.request).catch(function () {
+      return caches.match(evt.request).then(function (response) {
+        if (response) {
+          return response;
+        } else if (evt.request.headers.get("accept").includes("text/html")) {
+          // return the cached home page for all requests for html pages
+          return caches.match("/");
+        }
+      });
     })
   );
 });

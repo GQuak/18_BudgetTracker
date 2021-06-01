@@ -16,7 +16,11 @@ The user will be able to add expenses and deposits to their budget with or witho
 
 ## User Story
 
+As a traveling business person I need to manage my money wherever I am and whether or not I have access to the internet.
+
 ## Description
+
+Use the app from a web browser to get started, once you've loaded the app you can continue to use it even if you are no longer able to access the internet
 
 ## Usage
 
@@ -25,9 +29,7 @@ Open the [Workout Tracker](https://vast-atoll-07067.herokuapp.com/) in a web bro
 ## Mock-Up
 
 These images show the Workout Tracker's appearance and functionality:
-![View the data from your most recent workout](./public/Images/WorkoutTracker.png)
-![Add a new exercise](./public/Images/AddWorkout.png)
-![View charts showing a summary of your last 7 workouts](./public/Images/WorkoutDashboard.png)
+![View your budget](./public/Images/screenshot.png)
 
 ## Installation
 
